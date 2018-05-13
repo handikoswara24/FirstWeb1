@@ -1,33 +1,37 @@
-var posY = 0;
-var jarak = 15;
-// var curY = document.documentElement.scrollTop;
-// posY=curY;
+var scrollY = 0;
+var distance = 30;
+var speed = 5;
 
 function smoothScroll(id){
     var target = document.getElementById(id).offsetTop - 60;
-    // var scrollAnimate = setTimeout(function(){
-    //     smoothScroll(id)
-    // },1); 
+    var currentY = window.pageYOffset;
+    var bodyHeight = document.body.offsetHeight;
+    var yPos = currentY + window.innerHeight;
+    var scrollAnimate = setTimeout(function(){
+    smoothScroll(id)},speed); 
 
-    // if(curY <= target){
-    //     posY = curY;
-    // }
-    // else{
-    //     posY = 0;
-    // }
-
-    // posY += jarak;
-
-    // if(posY >= target){
-    //     clearTimeout(scrollAnimate);
-    //     posY=0;
-    // }
-    // else{
-    //     window.scroll(0,posY);
-    // }
-
-    window.scroll(0,target);
-
+    if(currentY > target){
+        if(currentY > target - distance){
+            window.scrollBy(0, (-1)*distance);
+        }
+        else{
+            clearTimeout(scrollAnimate);
+        }
+    }
+    else if(currentY < target){
+        if(yPos >= bodyHeight){
+            clearTimeout(scrollAnimate);
+        }
+        else{
+            if(currentY < target - distance){
+                scrollY = currentY + distance;
+                window.scrollBy(0,distance);
+            }
+            else{
+                clearTimeout(scrollAnimate);
+            }
+        }
+    }
     return false;
 }
 
